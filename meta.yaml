@@ -1,0 +1,35 @@
+{% set data = load_setup_py_data() %}
+{% set name = "divemarkdownit" %}
+{% set version = "0.0.1" %}
+
+package:
+  name: "{{ name|lower }}"
+  version: "{{ version }}"
+
+source:
+  path: .
+
+build:
+  number: 0
+  script: "{{ PYTHON }} -m pip install . -vv"
+  noarch: python
+
+requirements:
+  host:
+    - pip
+    - python
+  run:
+    - python
+    {% for dep in data['install_requires'] %}
+    - {{ dep.lower() }}
+    {% endfor %}
+
+test:
+  imports:
+    - "{{ name|lower }}"
+
+about:
+  home: The package home page
+  license: BSD
+  license_family: BSD
+  summary: "MathJax 3 for DIVE virtual learning environment."
